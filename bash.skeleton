@@ -1,0 +1,54 @@
+#!/bin/bash
+# this script is used to ...
+
+set -euo pipefail
+IFS=$'\n\t'
+
+ME=`basename $0`
+
+function usage
+{
+   cat<<EOF
+Usage: $ME [Options] Command
+
+OPTIONS:
+   -h             print this help message
+   -n             dry run mode
+   -v             verbose mode
+   -G             do the real job
+
+COMMANDS:
+
+EOF
+   exit 0
+}
+
+DRYRUN=echo
+
+while getopts "hnvG" option; do
+   case $option in
+      n) DRYRUN=echo [DRYRUN] ;;
+      v) VERBOSE=-v ;;
+      G) DRYRUN= ;;
+      h|?|*) usage ;;
+   esac
+done
+
+shift $(($OPTIND-1))
+
+CMD="$@"
+
+if [ "$CMD" = "" ]; then
+   usage
+fi
+
+
+function _do_cmd
+{
+}
+
+if [ ! -z $DRYRUN ]; then
+   echo '***********************************'
+   echo "Please use -G to do the real work"
+   echo '***********************************'
+fi
